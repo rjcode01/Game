@@ -2,4 +2,6 @@
     margin: 2rem;
     background-color: aquamarine;
     padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
 }

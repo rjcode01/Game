@@ -2,19 +2,18 @@ const unOrderNumbers = [];
 const numberList = [];
 
 function start(e) {
-  const randomNumbers = generateFourUniqueRandomNumbers();
-  document.getElementById(e).style.display = "none";
-  const players = document.querySelectorAll(".player");
-  for (let i = 0; i < players.length; i++) {
-    //   debugger
-    document.getElementById("player" + (i + 1)).innerText = "#####";
-    players[i].disabled = false;
-    players[i].style.display = "block";
-  }
+  generateFourUniqueRandomNumbers();
+  $("#" + e).css("display", "none");
+
+  $(".player").each(function (i) {
+    $("#player" + (i + 1)).text("#####");
+    $(this).prop("disabled", false);
+    $(this).css("display", "block");
+  });
 }
 
 function generateRandomNumber() {
-  return Math.floor(Math.random() * 10000); // Adjust the range as needed
+  return Math.floor(Math.random() * 1000);
 }
 
 function generateFourUniqueRandomNumbers() {
@@ -25,54 +24,46 @@ function generateFourUniqueRandomNumbers() {
       unOrderNumbers.push(randomNumber);
     }
   }
-  //   debugger
   return numberList;
 }
 
 function pickup(e, button) {
   let btn = e + "btn";
-  let element = document.getElementById(e);
-  let btnElement = document.getElementById(btn);
-  //   document.getElementById('player1btn').disabled = true;
-  //   buttonEle.style.display = 'none'
-  btnElement.style.display = "none";
+  let element = $("#" + e);
+  let btnElement = $("#" + btn);
+  let btnFind = $("#" + e + "btnFind");
 
-  console.log("numberList ", numberList);
-  console.log("un1 ", unOrderNumbers);
+  $(btnElement).css("display", "none");
+
+  // console.log("numberList ", numberList);
+  // console.log("un1 ", unOrderNumbers);
+
   const sortedNumbers = numberList.slice().sort((a, b) => b - a);
   let number = unOrderNumbers.pop();
-  if (sortedNumbers[0] > number) console.log("sdfsdf", element.value);
-  console.log("un11 ", sortedNumbers);
+
   switch (number) {
     case sortedNumbers[0]:
-      element.innerText = "Raja";
-      // document.getElementById(e + "btnFind").classList.add("rajaBtn");
-      console.log("1 for highest:", number);
+      element.text("Raja");
+      element.attr('value','1000');      
       break;
     case sortedNumbers[1]:
-      element.id = "mantri";
-      element.className = e;
-      // document.getElementById(e + "btnFind").classList.add("mantriBtn");
-      element.disabled = true;
-      console.log("2 for second highest:", number);
+      element.attr("id", "mantri");
+      element.addClass(e);
+      element.attr('value','800');
       break;
     case sortedNumbers[2]:
-      element.disabled = true;
-      element.classList.add("sipahi")
-      document.getElementById(e + "btnFind").classList.add("findChor");
-
-      document.getElementById(e + "btnFind").classList.add("sipahiBtn");
-      document.getElementById(e + "btnFind").setAttribute("chor", false);
-      console.log("3 for third highest:", number);
+      element.addClass("sipahi");
+      btnFind.addClass("findChor");
+      btnFind.addClass("sipahiBtn");
+      btnFind.attr("chor", false);
+      element.attr('value','500');
       break;
     case sortedNumbers[3]:
-      element.disabled = true;
-      element.classList.add("chor")
-      document.getElementById(e + "btnFind").classList.add("findChor");
-      document.getElementById(e + "btnFind").classList.add("chorBtn");
-
-      document.getElementById(e + "btnFind").setAttribute("chor", true);
-      console.log("4 for smallest:", number);
+      element.addClass("chor");
+      btnFind.addClass("findChor");
+      btnFind.addClass("chorBtn");
+      btnFind.attr("chor", true);
+      element.attr('value','0');
       break;
     default:
       break;
@@ -80,101 +71,100 @@ function pickup(e, button) {
 
   if (unOrderNumbers.length === 0) {
     numberList.length = 0;
-    // document.getElementById("start").disabled = false;
-    document.getElementById("start").style.display = "block";
-    document.getElementById("findMantri").style.display = "block";
+    $("#findMantri").css("display", "block");
   }
 }
 
 function findMantri() {
-  // alert('lk')
-  let mantir = document.getElementById("mantri");
-  mantir.innerText = "Mantri";
-  mantir.id = mantir.getAttribute("class");
-  mantir.removeAttribute("class");
+  let mantir = $("#mantri");
+  mantir.text("Mantri");
+  mantir.attr("id", mantir.attr("class").split(' ')[1]);
+//   var class = $('.module').attr('class');
+// var st = class.split(' ');
+// var firstClass = st[0];
 
-  document.getElementById("findMantri").style.display = "none";
-  let findChor = document.querySelectorAll(".findChor");
-  for (let i = 0; i < findChor.length; i++) {
-    findChor[i].style.display = "block";
-  }
+  mantir.addClass('playerText');
+  // mantir.removeAttr("class");
+
+  $("#findMantri").css("display", "none");
+  $(".findChor").each(function () {
+    $(this).css("display", "block");
+  });
 }
 
 function findChor(player) {
-  // console.log(player);
-  //console.log(this.getAttribute('chor'));
-
-  let findChor = document.querySelectorAll(".findChor");
-  // let isChor = findChor.getAttribute("chor");
-  // let playerId = findChor.getAttribute("id");
-  // let isPlayer = playerId.includes(player);
-
-  // console.log(isChor, isPlayer, playerId, player);
-
-  // if (
-  //   (isChor == "true" && isPlayer == true) ||
-  //   (isChor == "false" && isPlayer == false)
-  // ) {
-  //   alert("y");
-  // } else {
-  //   // alert("n")
-  //   document.getElementById(player).innerHTML = "Sipahi";
-  //   findChor.innerHTML = "bhai tu fass gya";
-  // }
-
-
-  // console.log(findChor.getAttribute('chor'))
-  // if(findChor.getAttribute('chor') === true)
-  // {
-  //   alert("d")
-  //   console.log(findChor.getAttribute('id').includes(player))
-  // }
-
-  for (let i = 0; i < findChor.length; i++) {
-    let isChor = findChor[i].getAttribute("chor");
-    let playerId = findChor[i].getAttribute("id");
+  $(".findChor").each(function () {
+    let isChor = $(this).attr("chor");
+    let playerId = $(this).attr("id");
     let isPlayer = playerId.includes(player);
 
-    // console.log(isChor, isPlayer, playerId, player);
 
     if (
       (isChor == "true" && isPlayer == true) ||
       (isChor == "false" && isPlayer == false)
     ) {
-      document.getElementById(player).innerHTML = "Chor";
-      document.querySelector(".sipahi").innerHTML = "Sipahi"
-      document.querySelector(".sipahiBtn").style.display = 'none'
-      document.querySelector(".chorBtn").style.display = 'none'
-  removeClass();
-      
-    } else {
-      // debugger
-      document.getElementById(player).innerHTML = "Sipahi";
-      document.querySelector(".sipahiBtn").style.display = 'none'
-      document.querySelector(".chor").innerHTML = "Chor"
-      document.querySelector(".chorBtn").style.display = 'none'
-      document.querySelector("#message").innerHTML = "Mai Hu Chor or tu h chutiya"
-      setTimeout(() => {
-        document.querySelector("#message").style.display = 'none'
-      }, 3000);
+      $("#" + player).text("Chor");
+      $(".sipahi").text("Sipahi");
+      $(".sipahiBtn").css("display", "none");
+      $(".chorBtn").css("display", "none");
+      $("#message").text("Bach Gya Bhai");
       removeClass();
-      break;
+    } else {
+      $("#" + player).text("Sipahi");
+      $(".chor").text("Chor");
+      $(".sipahiBtn").css("display", "none");
+      $(".chorBtn").css("display", "none");
+      $("#message").text("Tu Fass Gya");
+      $("#exchange-message").text("Mantri ab tujhe : 0 : melega or Chor tujhe : 800 : milenge");
+      $('.playerText').each(function(i){
+        // console.log($(this).text())
+        if(($(this).text()) === "Mantri")
+        {
+          $(this).attr('value', '0');
+          $(".chor").attr('value', '800');
+        }
+        
+
+      })
+
+      removeClass();
     }
 
-    // if (findChor[i].getAttribute("chor")) {
-    //   console.log(findChor[1].getAttribute("id").includes(player));
-    // }
-  }
+    $("#message").css("display", "block");
+    $("#exchange-message").css("display", "block");
+    setTimeout(() => {
+      $("#message").css("display", "none");
+      $("#exchange-message").css("display", "none");
+    }, 3000);
+    addTrInTableBody();
+    $("#start").css("display", "block");
+    return false;
+  });
 }
 
-function removeClass(){
-  var element = document.querySelectorAll('.findChor');
-  element[0].classList.remove('findChor')
-  element[1].classList.remove('findChor')
-  document.querySelector('.chorBtn').classList.remove('chorBtn');
-  document.querySelector('.sipahiBtn').classList.remove('sipahiBtn');
-  document.querySelector('.chor').classList.remove('chor');
-  document.querySelector('.sipahi').classList.remove('sipahi');
-// console.log(element[0])
-// console.log(element[1])
+function removeClass() {
+  $(".findChor").each(function () {
+    $(this).removeClass("findChor");
+  });
+  $(".chorBtn").removeClass("chorBtn");
+  $(".sipahiBtn").removeClass("sipahiBtn");
+  $(".chor").removeClass("chor");
+  $(".sipahi").removeClass("sipahi");
+  $("#playerText").removeAttr("class");
+}
+
+function addTrInTableBody() {
+  let player1 = $("#player1").attr('value');
+  let player2 = $("#player2").attr('value');
+  let player3 = $("#player3").attr('value');
+  let player4 = $("#player4").attr('value');
+
+  let trWithTd = `<tr>
+  <td>${player1}</td>
+  <td>${player2}</td>
+  <td>${player3}</td>
+  <td>${player4}</td>
+</tr>`;
+
+  $("#t-body").append(trWithTd);
 }
