@@ -114,8 +114,8 @@ function findChor(player) {
       $(".chor").text("Chor");
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
-      $("#message").text("Tu Fass Gya");
-      $("#exchange-message").text("Mantri ab tujhe : 0 : melega or Chor tujhe : 800 : milenge");
+      $("#message").text("Mantri Fass Gya");
+      $("#exchange-message").text("Mantri ab apko : 0 : melega or Chor apko : 800 : milenge");
       $('.playerText').each(function(i){
         // console.log($(this).text())
         if(($(this).text()) === "Mantri")
