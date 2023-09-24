@@ -163,9 +163,7 @@ function findChor(player) {
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
       $("#message").text("Mantri Fass Gya");
-      $("#exchange-message").text(
-        "Mantri ab apko : 0 : melega or Chor apko : 800 : milenge."
-      );
+    
       $(".playerText").each(function (i) {
         if ($(this).text() === "Mantri") {
           $(this).attr("value", "0");
@@ -180,7 +178,7 @@ function findChor(player) {
     $("#exchange-message").css("display", "block");
     setTimeout(() => {
       $("#message").css("display", "none");
-      $("#exchange-message").css("display", "none");
+     
     }, 5000);
     addTrInTableBody();
     $("#start").css("display", "block");
