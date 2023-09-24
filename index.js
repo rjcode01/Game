@@ -155,14 +155,14 @@ function findChor(player) {
       $(".sipahi").text("Sipahi");
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
-      $("#message").text("Mantri bach gya chor pakda gya.");
+      $("#message").text("Chor pakda gya. Le Mantir 😂😂😂");
       removeClass();
     } else {
       $("#" + player).text("Sipahi");
       $(".chor").text("Chor");
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
-      $("#message").text("Mantri Fass Gya");
+      $("#message").text("Mantri Fass Gya. Le Chor 🤣🤣🤣");
     
       $(".playerText").each(function (i) {
         if ($(this).text() === "Mantri") {
