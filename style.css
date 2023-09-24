@@ -1,7 +1,48 @@
+html{
+    font-size: smaller;
+    padding: 0;
+    margin: 0;
+}
+
 .players div{
-    margin: 1rem;
+    margin: 1.5rem;
     background-color: aquamarine;
     padding: 2rem;
     border-radius: 0.5rem;
     text-align: center;
+}
+
+.notes p{
+    font-size: 1.2rem;
+    color: #ff001a;
+    font-weight: 600;
+}
+
+.notes p:first-child{
+    font-size: 1.2rem;
+    color: #0c0304;
+    font-weight: 600;   
+}
+
+.notes p:last-child{
+    font-weight: bold;
+    color: #1e5dff;
+}
+
+.input-name{
+    text-align: center;
+    font-family: ui-monospace;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.input-name div{
+    margin: .5rem;
+}
+
+.input-name div input {
+    border-color: red;
+    border-radius: 0.4rem;
+    font-size: 1.3rem;
+    padding-left: 0.5rem;
 }

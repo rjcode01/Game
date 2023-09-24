@@ -1,15 +1,67 @@
 const unOrderNumbers = [];
 const numberList = [];
+let playTime = 1;
+const players = {
+  player1: 0,
+  player2: 0,
+  player3: 0,
+  player4: 0,
+};
+
+function gameRules(){
+  $(".notes").css('display', 'block');
+  setTimeout(() => {
+  $(".notes").css('display', 'none');
+  }, 10000);
+}
 
 function start(e) {
-  generateFourUniqueRandomNumbers();
-  $("#" + e).css("display", "none");
+  if (playTime <= 2) {
+    $("#" + e).text("Start");
 
-  $(".player").each(function (i) {
-    $("#player" + (i + 1)).text("#####");
-    $(this).prop("disabled", false);
-    $(this).css("display", "block");
-  });
+    generateFourUniqueRandomNumbers();
+    $("#" + e).css("display", "none");
+
+    $(".player").each(function (i) {
+      $("#player" + (i + 1)).text("#####");
+      $(this).prop("disabled", false);
+      $(this).css("display", "block");
+    });
+    $("#message").text("Pick Up Your Player");
+    setTimeout(() => {
+      $("#message").css("display", "none");
+    }, 5000);
+    if (playTime === 2) {
+      $("#" + e).text("Check Winner");
+    }
+    playTime = playTime + 1;
+  } else {
+    location.reload();
+    const sortable = Object.entries(players)
+      .sort(([, a], [, b]) => a - b)
+      .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+    console.log(sortable);
+
+    const keys = Object.keys(sortable);
+
+    if (keys.length >= 2) {
+      const secondLastKey = keys[keys.length - 2];
+      const lastKey = keys[keys.length - 1];
+
+      const secondLastName = sortable[secondLastKey];
+      const lastName = sortable[lastKey];
+
+      if (secondLastName === lastName)
+        alert("The winner is " + secondLastKey + " and " + lastKey);
+      else alert("The winner is " + lastKey);
+      // console.log("Second-to-last name:", secondLastKey, secondLastName);
+      // console.log("Last name:", lastKey, lastName);
+    }
+
+    playTime = 1;
+    $("#t-body").html("");
+    $("#" + e).text("Start");
+  }
 }
 
 function generateRandomNumber() {
@@ -44,26 +96,26 @@ function pickup(e, button) {
   switch (number) {
     case sortedNumbers[0]:
       element.text("Raja");
-      element.attr('value','1000');      
+      element.attr("value", "1000");
       break;
     case sortedNumbers[1]:
       element.attr("id", "mantri");
       element.addClass(e);
-      element.attr('value','800');
+      element.attr("value", "800");
       break;
     case sortedNumbers[2]:
       element.addClass("sipahi");
       btnFind.addClass("findChor");
       btnFind.addClass("sipahiBtn");
       btnFind.attr("chor", false);
-      element.attr('value','500');
+      element.attr("value", "500");
       break;
     case sortedNumbers[3]:
       element.addClass("chor");
       btnFind.addClass("findChor");
       btnFind.addClass("chorBtn");
       btnFind.attr("chor", true);
-      element.attr('value','0');
+      element.attr("value", "0");
       break;
     default:
       break;
@@ -78,12 +130,9 @@ function pickup(e, button) {
 function findMantri() {
   let mantir = $("#mantri");
   mantir.text("Mantri");
-  mantir.attr("id", mantir.attr("class").split(' ')[1]);
-//   var class = $('.module').attr('class');
-// var st = class.split(' ');
-// var firstClass = st[0];
+  mantir.attr("id", mantir.attr("class").split(" ")[1]);
 
-  mantir.addClass('playerText');
+  mantir.addClass("playerText");
   // mantir.removeAttr("class");
 
   $("#findMantri").css("display", "none");
@@ -98,7 +147,6 @@ function findChor(player) {
     let playerId = $(this).attr("id");
     let isPlayer = playerId.includes(player);
 
-
     if (
       (isChor == "true" && isPlayer == true) ||
       (isChor == "false" && isPlayer == false)
@@ -107,7 +155,7 @@ function findChor(player) {
       $(".sipahi").text("Sipahi");
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
-      $("#message").text("Bach Gya Bhai");
+      $("#message").text("Mantri bach gya chor pakda gya.");
       removeClass();
     } else {
       $("#" + player).text("Sipahi");
@@ -115,17 +163,15 @@ function findChor(player) {
       $(".sipahiBtn").css("display", "none");
       $(".chorBtn").css("display", "none");
       $("#message").text("Mantri Fass Gya");
-      $("#exchange-message").text("Mantri ab apko : 0 : melega or Chor apko : 800 : milenge");
-      $('.playerText').each(function(i){
-        // console.log($(this).text())
-        if(($(this).text()) === "Mantri")
-        {
-          $(this).attr('value', '0');
-          $(".chor").attr('value', '800');
+      $("#exchange-message").text(
+        "Mantri ab apko : 0 : melega or Chor apko : 800 : milenge."
+      );
+      $(".playerText").each(function (i) {
+        if ($(this).text() === "Mantri") {
+          $(this).attr("value", "0");
+          $(".chor").attr("value", "800");
         }
-        
-
-      })
+      });
 
       removeClass();
     }
@@ -135,7 +181,7 @@ function findChor(player) {
     setTimeout(() => {
       $("#message").css("display", "none");
       $("#exchange-message").css("display", "none");
-    }, 3000);
+    }, 5000);
     addTrInTableBody();
     $("#start").css("display", "block");
     return false;
@@ -154,10 +200,15 @@ function removeClass() {
 }
 
 function addTrInTableBody() {
-  let player1 = $("#player1").attr('value');
-  let player2 = $("#player2").attr('value');
-  let player3 = $("#player3").attr('value');
-  let player4 = $("#player4").attr('value');
+  let player1 = $("#player1").attr("value");
+  let player2 = $("#player2").attr("value");
+  let player3 = $("#player3").attr("value");
+  let player4 = $("#player4").attr("value");
+
+  players.player1 = players.player1 + parseInt(player1);
+  players.player2 = players.player2 + parseInt(player2);
+  players.player3 = players.player3 + parseInt(player3);
+  players.player4 = players.player4 + parseInt(player4);
 
   let trWithTd = `<tr>
   <td>${player1}</td>
