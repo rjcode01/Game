@@ -16,7 +16,7 @@ function gameRules(){
 }
 
 function start(e) {
-  if (playTime <= 2) {
+  if (playTime <= 5) {
     $("#" + e).text("Start");
 
     generateFourUniqueRandomNumbers();
@@ -31,7 +31,7 @@ function start(e) {
     setTimeout(() => {
       $("#message").css("display", "none");
     }, 5000);
-    if (playTime === 2) {
+    if (playTime === 5) {
       $("#" + e).text("Check Winner");
     }
     playTime = playTime + 1;
